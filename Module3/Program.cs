@@ -10,115 +10,86 @@ namespace Module3
     {
         static void Main(string[] args)
         {
+            StudentInfo();
+            TeacherInfo();
+            UProgramInfo();
+            DegreeInformation();
+            CourseInformation();
+
+            Console.WriteLine("\nHit any key to terminate the program.");
+            Console.ReadKey();
+        }
+
+        static void StudentInfo()
+        {
+            // Student Info
             string studentFirstName;
             string studentLastName;
-            DateTime studentBirthDate;
+            //DateTime studentBirthDate;  dumb down the birthdate for the exercise
+            string studentBirthDate;
 
-            GetStudentInformation(out studentFirstName, out studentLastName, out studentBirthDate);
-            PrintStudentDetails(studentFirstName, studentLastName, studentBirthDate.ToString());
-            //string studentAddressLine1;
-            //string studentAddressLine2;
-            //string studentCity;
-            //string studentStateProvince;
-            //string studentZipPostal;
-            //string studentCountry;
+            GetBio("student", out studentFirstName, out studentLastName, out studentBirthDate);
+            PrintBio("Student", studentFirstName, studentLastName, studentBirthDate.ToString());
+        }
 
+        static void TeacherInfo()
+        {
+            // Teacher Info
+            string teacherFirstName;
+            string teacherLastName;
+            //DateTime teacherBirthDate;  dumb down the birthdate for the exercise
+            string teacherBirthDate;
 
-            //// Assign sample student info
-            //string studentFirstName = "John";
-            //string studentLastName = "Student";
-            //DateTime studentBirthDate = new DateTime(1995, 1, 31);
-            //string studentAddressLine1 = "1 Main Street";
-            //string studentAddressLine2 = string.Empty;
-            //string studentCity = "Anytown";
-            //string studentStateProvince = "MA";
-            //string studentZipPostal = "01234";
-            //string studentCountry = "United States";
-/*
-            // Write everything
-            Console.WriteLine("Preset Values\n");
-            Console.WriteLine("studentFirstName: {0}", studentFirstName);
-            Console.WriteLine("studentLastName: {0}", studentLastName);
-            Console.WriteLine("studentBirthDate: {0}", studentBirthDate);
-            Console.WriteLine("studentAddressLine1: {0}", studentAddressLine1);
-            Console.WriteLine("studentAddressLine2: {0}", studentAddressLine2);
-            Console.WriteLine("studentCity: {0}", studentCity);
-            Console.WriteLine("studentStateProvinc: {0}", studentStateProvince);
-            Console.WriteLine("studentZipPostal: {0}", studentZipPostal);
-            Console.WriteLine("studentCountry: {0}", studentCountry);
+            GetBio("teacher", out teacherFirstName, out teacherLastName, out teacherBirthDate);
+            PrintBio("Teacher", teacherFirstName, teacherLastName, teacherBirthDate.ToString());
+        }
 
-            Console.WriteLine("\nHit any key to continue on to input section.");
-            Console.ReadKey();
+        static void UProgramInfo()
+        {
+            string programName;
+            string departmentHead;
+            string degrees;
 
+            GetStringData("Enter program name:", out programName);
+            GetStringData("Enter department head:", out departmentHead);
+            GetStringData("Enter degrees (separate with commas):", out degrees);
 
-            // Challenge: prompt user for student data, and save it to existing variables.
-            Console.WriteLine("Enter a new value for each field.\n");
+            PrintUProgram(programName, departmentHead, degrees);
+        }
 
-            Console.WriteLine("studentFirstName: {0}", studentFirstName);
-            studentFirstName = Console.ReadLine();
-            Console.WriteLine("New studentFirstName: {0}", studentFirstName);
+        static void PrintUProgram(string programName, string departmentHead, string degrees)
+        {
+            Console.WriteLine("Program {0} is headed by {1}, and offers these degrees: {2}.", programName, departmentHead, degrees);
+            Console.WriteLine("\n\n");
+        }
 
-            Console.WriteLine("studentLastName: {0}", studentLastName);
-            studentLastName = Console.ReadLine();
-            Console.WriteLine("New studentLastName: {0}", studentLastName);
+        static void DegreeInformation()
+        {
+            string degreeName;
+            int creditsRequired;
+
+            GetStringData("Enter degree name:", out degreeName);
 
             bool invalidData = true;
             while (invalidData)
             {
                 try
                 {
-                    Console.WriteLine("studentBirthDate: {0}", studentBirthDate);
-                    Console.Write("Use MM/DD/YYYY\n");
-                    studentBirthDate = DateTime.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter the number of credits required to complete the degree: ");
+                    creditsRequired = int.Parse(Console.ReadLine());
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                     continue;
                 }
-                Console.WriteLine("studentBirthDate: {0}", studentBirthDate);
                 invalidData = false;
             }
+        }
 
-            Console.WriteLine("studentAddressLine1: {0}\n", studentAddressLine1);
-            studentAddressLine1 = Console.ReadLine();
-            Console.WriteLine("New studentAddressLine1: {0}\n", studentAddressLine1);
+        static void GetCourseInformation()
+        {
 
-            Console.WriteLine("studentAddressLine2: {0}\n", studentAddressLine2);
-            studentAddressLine2 = Console.ReadLine();
-            Console.WriteLine("New studentAddressLine2: {0}\n", studentAddressLine2);
-
-            Console.WriteLine("studentCity: {0}\n", studentCity);
-            studentCity = Console.ReadLine();
-            Console.WriteLine("New studentCity: {0}\n", studentCity);
-
-            Console.WriteLine("studentStateProvince: {0}\n", studentStateProvince);
-            studentStateProvince = Console.ReadLine();
-            Console.WriteLine("New studentStateProvince: {0}\n", studentStateProvince);
-
-            Console.WriteLine("studentZipPostal: {0}\n", studentZipPostal);
-            studentZipPostal = Console.ReadLine();
-            Console.WriteLine("New studentZipPostal: {0}\n", studentZipPostal);
-
-            Console.WriteLine("studentCountry: {0}\n", studentCountry);
-            studentCountry = Console.ReadLine();
-            Console.WriteLine("New studentCountry: {0}\n", studentCountry);
-
-
-            // Write everything - definitely NOT DRY code right now
-            Console.WriteLine("New Values\n");
-            Console.WriteLine("studentFirstName: {0}", studentFirstName);
-            Console.WriteLine("studentLastName: {0}", studentLastName);
-            Console.WriteLine("studentBirthDate: {0}", studentBirthDate);
-            Console.WriteLine("studentAddressLine1: {0}", studentAddressLine1);
-            Console.WriteLine("studentAddressLine2: {0}", studentAddressLine2);
-            Console.WriteLine("studentCity: {0}", studentCity);
-            Console.WriteLine("studentStateProvinc: {0}", studentStateProvince);
-            Console.WriteLine("studentZipPostal: {0}", studentZipPostal);
-            Console.WriteLine("studentCountry: {0}", studentCountry);
-*/
-            Console.WriteLine("\nHit any key to terminate the program.");
-            Console.ReadKey();
         }
 
         static void GetStringData(string prompt, out string data, bool required = true)
@@ -130,29 +101,11 @@ namespace Module3
             } while ((string.IsNullOrEmpty(data)) && required);
         }
 
-        static void GetStudentInformation(out string firstName, out string lastName, out DateTime birthDate)
+        static void GetBio(string bioType, out string firstName, out string lastName, out string birthDate)
         {
-            GetStringData("Enter the student's first name (REQUIRED): ", out firstName);
-            GetStringData("Enter the student's last name (REQUIRED): ", out lastName);
-            GetDate("")
-            bool invalidData = true;
-            birthDate = DateTime.Now;
-            while (invalidData)
-            {
-                try
-                {
-                    Console.WriteLine("Enter the student's birth date. Use MM/DD/YYYY (REQUIRED): ");
-                    birthDate = DateTime.Parse(Console.ReadLine());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    continue;
-                }
-                Console.WriteLine("student birth date: {0}", birthDate);
-                invalidData = false;
-            }
-
+            GetStringData("Enter the " + bioType + "'s first name (REQUIRED): ", out firstName);
+            GetStringData("Enter the " + bioType + "'s last name (REQUIRED): ", out lastName);
+            GetStringData("Enter the " + bioType + "'s birth date (REQUIRED): ", out birthDate);
 
             //This is to be added back in later.
             //bool invalidData = true;
@@ -174,9 +127,10 @@ namespace Module3
             //}
         }
 
-        static void PrintStudentDetails(string first, string last, string birthDate)
+        static void PrintBio(string bioType, string first, string last, string birthDate)
         {
-            Console.WriteLine("{0} {1} was born on: {2}", first, last, birthDate);
+            Console.WriteLine("{0}: {1} {2} was born on: {3}", bioType, first, last, birthDate);
+            Console.WriteLine("\n\n");
         }
 
     }
