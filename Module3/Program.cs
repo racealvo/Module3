@@ -10,10 +10,10 @@ namespace Module3
     {
         static void Main(string[] args)
         {
-            StudentInfo();
-            TeacherInfo();
-            UProgramInfo();
-            DegreeInformation();
+            //StudentInfo();
+            //TeacherInfo();
+            //UProgramInfo();
+            //DegreeInformation();
             CourseInformation();
 
             Console.WriteLine("\nHit any key to terminate the program.");
@@ -63,44 +63,73 @@ namespace Module3
             Console.WriteLine("\n\n");
         }
 
+        /// <summary>
+        /// Collect degree info.
+        /// </summary>
         static void DegreeInformation()
         {
             string degreeName;
             int creditsRequired;
 
             GetStringData("Enter degree name:", out degreeName);
+            GetWholeNumberData("Enter the number of credits required to complete the degree:", out creditsRequired);
 
-            bool invalidData = true;
-            while (invalidData)
-            {
-                try
-                {
-                    Console.WriteLine("Enter the number of credits required to complete the degree: ");
-                    creditsRequired = int.Parse(Console.ReadLine());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    continue;
-                }
-                invalidData = false;
-            }
+            PrintDegreeInformation(degreeName, creditsRequired);
         }
 
-        static void GetCourseInformation()
+        static void PrintDegreeInformation(string degreeName, int creditsRequired)
         {
-
+            Console.WriteLine("{0} degree requires {1} credits for completion.", degreeName, creditsRequired);
+            Console.WriteLine("\n\n");
         }
 
+        /// <summary>
+        /// Collect course info.
+        /// </summary>
+        static void CourseInformation()
+        {
+            string courseName;
+            int credits;
+            int duration;
+            string teacher;
+
+            GetStringData("Enter course name:", out courseName);
+            GetWholeNumberData("Enter the number of credits " + courseName + " is worth:", out credits);
+            GetWholeNumberData("Enter the duration of the course in weeks:", out duration);
+            GetStringData("Enter the teacher's name:", out teacher);
+            //Todo: validate teacher from list of teachers.
+
+            PrintCourseInformation(courseName, credits, duration, teacher);
+        }
+
+        static void PrintCourseInformation(string courseName, int credits, int duration, string teacher)
+        {
+            Console.WriteLine("The course {0} offers {1} credits.  It lasts {2} weeks and is taught by {3)", courseName, credits.ToString(), duration.ToString(), teacher);
+            Console.WriteLine("\n\n");
+        }
+
+        /// <summary>
+        /// Get string data from the user.  If the data is required, keep looping until we get something legitimate.
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="data"></param>
+        /// <param name="required"></param>
         static void GetStringData(string prompt, out string data, bool required = true)
         {
             do
             {
                 Console.WriteLine(prompt);
                 data = Console.ReadLine();
-            } while ((string.IsNullOrEmpty(data)) && required);
+            } while (required && (string.IsNullOrWhiteSpace(data)));
         }
 
+        /// <summary>
+        /// Get biographic information (student or teacher) - name, birthdate, address
+        /// </summary>
+        /// <param name="bioType"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="birthDate"></param>
         static void GetBio(string bioType, out string firstName, out string lastName, out string birthDate)
         {
             GetStringData("Enter the " + bioType + "'s first name (REQUIRED): ", out firstName);
@@ -127,11 +156,59 @@ namespace Module3
             //}
         }
 
+        /// <summary>
+        /// Print biographic information (student or teacher)
+        /// </summary>
+        /// <param name="bioType"></param>
+        /// <param name="first"></param>
+        /// <param name="last"></param>
+        /// <param name="birthDate"></param>
         static void PrintBio(string bioType, string first, string last, string birthDate)
         {
             Console.WriteLine("{0}: {1} {2} was born on: {3}", bioType, first, last, birthDate);
             Console.WriteLine("\n\n");
         }
 
+        /// <summary>
+        /// Get a whole number.  
+        /// Validate the input
+        ///   * is a whole number
+        ///   * positive
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="wholeNumber"></param>
+        static void GetWholeNumberData(string prompt, out int wholeNumber)
+        {
+            wholeNumber = -1;
+            bool invalidData = true;
+
+            while (invalidData)
+            {
+                try
+                {
+                    Console.WriteLine(prompt);
+                    wholeNumber = int.Parse(Console.ReadLine());
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Your input was invalid.  Please enter a whole number.");
+                    continue;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
+
+                // no negatives allowed
+                if (wholeNumber < 0)
+                {
+                    Console.WriteLine("Input must be greater than zero.");
+                    continue;
+                }
+
+                invalidData = false;
+            }
+        }
     }
 }
