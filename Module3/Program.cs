@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module3
 {
@@ -10,117 +6,67 @@ namespace Module3
     {
         static void Main(string[] args)
         {
-            //StudentInfo();
-            //TeacherInfo();
-            //UProgramInfo();
-            //DegreeInformation();
-            CourseInformation();
-
-            Console.WriteLine("\nHit any key to terminate the program.");
-            Console.ReadKey();
-        }
-
-        static void StudentInfo()
-        {
             // Student Info
             string studentFirstName;
             string studentLastName;
             //DateTime studentBirthDate;  dumb down the birthdate for the exercise
             string studentBirthDate;
 
-            GetBio("student", out studentFirstName, out studentLastName, out studentBirthDate);
-            PrintBio("Student", studentFirstName, studentLastName, studentBirthDate.ToString());
-        }
-
-        static void TeacherInfo()
-        {
             // Teacher Info
             string teacherFirstName;
             string teacherLastName;
             //DateTime teacherBirthDate;  dumb down the birthdate for the exercise
             string teacherBirthDate;
 
-            GetBio("teacher", out teacherFirstName, out teacherLastName, out teacherBirthDate);
-            PrintBio("Teacher", teacherFirstName, teacherLastName, teacherBirthDate.ToString());
-        }
-
-        static void UProgramInfo()
-        {
+            // University Program Info
             string programName;
             string departmentHead;
             string degrees;
 
-            GetStringData("Enter program name:", out programName);
-            GetStringData("Enter department head:", out departmentHead);
-            GetStringData("Enter degrees (separate with commas):", out degrees);
-
-            PrintUProgram(programName, departmentHead, degrees);
-        }
-
-        static void PrintUProgram(string programName, string departmentHead, string degrees)
-        {
-            Console.WriteLine("Program {0} is headed by {1}, and offers these degrees: {2}.", programName, departmentHead, degrees);
-            Console.WriteLine("\n\n");
-        }
-
-        /// <summary>
-        /// Collect degree info.
-        /// </summary>
-        static void DegreeInformation()
-        {
+            // Degree Info
             string degreeName;
             int creditsRequired;
 
-            GetStringData("Enter degree name:", out degreeName);
-            GetWholeNumberData("Enter the number of credits required to complete the degree:", out creditsRequired);
-
-            PrintDegreeInformation(degreeName, creditsRequired);
-        }
-
-        static void PrintDegreeInformation(string degreeName, int creditsRequired)
-        {
-            Console.WriteLine("{0} degree requires {1} credits for completion.", degreeName, creditsRequired);
-            Console.WriteLine("\n\n");
-        }
-
-        /// <summary>
-        /// Collect course info.
-        /// </summary>
-        static void CourseInformation()
-        {
+            // Course Info
             string courseName;
             int credits;
             int duration;
             string teacher;
 
-            GetStringData("Enter course name:", out courseName);
-            GetWholeNumberData("Enter the number of credits " + courseName + " is worth:", out credits);
-            GetWholeNumberData("Enter the duration of the course in weeks:", out duration);
-            GetStringData("Enter the teacher's name:", out teacher);
-            //Todo: validate teacher from list of teachers.
 
-            PrintCourseInformation(courseName, credits, duration, teacher);
-        }
-
-        static void PrintCourseInformation(string courseName, int credits, int duration, string teacher)
-        {
-            Console.WriteLine("The course {0} offers {1} credits.  It lasts {2} weeks and is taught by {3)", courseName, credits.ToString(), duration.ToString(), teacher);
-            Console.WriteLine("\n\n");
-        }
-
-        /// <summary>
-        /// Get string data from the user.  If the data is required, keep looping until we get something legitimate.
-        /// </summary>
-        /// <param name="prompt"></param>
-        /// <param name="data"></param>
-        /// <param name="required"></param>
-        static void GetStringData(string prompt, out string data, bool required = true)
-        {
-            do
+            try
             {
-                Console.WriteLine(prompt);
-                data = Console.ReadLine();
-            } while (required && (string.IsNullOrWhiteSpace(data)));
+                StudentInfo(out studentFirstName, out studentLastName, out studentBirthDate);
+                TeacherInfo(out teacherFirstName, out teacherLastName, out teacherBirthDate);
+                UProgramInfo(out programName, out departmentHead, out degrees);
+                DegreeInformation(out degreeName, out creditsRequired);
+                CourseInformation(out courseName, out credits, out duration, out teacher);
+
+                ValidateDate(studentBirthDate);
+            }
+            catch (NotImplementedException e)
+            {
+                Console.WriteLine("Oops.  Please pardon our appearance.  This feature has not yet been implemented: {0}", e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.WriteLine("\nHit any key to terminate the program.");
+            Console.ReadKey();
+        }
+
+        static void StudentInfo(out string studentFirstName, out string studentLastName, out string studentBirthDate)
+        {
+            GetBio("student", out studentFirstName, out studentLastName, out studentBirthDate);
+            PrintBio("Student", studentFirstName, studentLastName, studentBirthDate.ToString());
+        }
+
+        static void TeacherInfo(out string teacherFirstName, out string teacherLastName, out string teacherBirthDate)
+        {
+            GetBio("teacher", out teacherFirstName, out teacherLastName, out teacherBirthDate);
+            PrintBio("Teacher", teacherFirstName, teacherLastName, teacherBirthDate.ToString());
         }
 
         /// <summary>
@@ -167,6 +113,84 @@ namespace Module3
         {
             Console.WriteLine("{0}: {1} {2} was born on: {3}", bioType, first, last, birthDate);
             Console.WriteLine("\n\n");
+        }
+
+        static void ValidateDate(string date)
+        {
+            throw new NotImplementedException("ValidateDate");
+        }
+
+        /// <summary>
+        /// Collect university program information
+        /// </summary>
+        /// <param name="programName"></param>
+        /// <param name="departmentHead"></param>
+        /// <param name="degrees"></param>
+        static void UProgramInfo(out string programName, out string departmentHead, out string degrees)
+        {
+            GetStringData("Enter program name:", out programName);
+            GetStringData("Enter department head:", out departmentHead);
+            GetStringData("Enter degrees (separate with commas):", out degrees);
+
+            PrintUProgram(programName, departmentHead, degrees);
+        }
+
+        static void PrintUProgram(string programName, string departmentHead, string degrees)
+        {
+            Console.WriteLine("Program {0} is headed by {1}, and offers these degrees: {2}.", programName, departmentHead, degrees);
+            Console.WriteLine("\n\n");
+        }
+
+        /// <summary>
+        /// Collect degree info.
+        /// </summary>
+        static void DegreeInformation(out string degreeName, out int creditsRequired)
+        {
+            GetStringData("Enter degree name:", out degreeName);
+            GetWholeNumberData("Enter the number of credits required to complete the degree:", out creditsRequired);
+
+            PrintDegreeInformation(degreeName, creditsRequired);
+        }
+
+        static void PrintDegreeInformation(string degreeName, int creditsRequired)
+        {
+            Console.WriteLine("{0} degree requires {1} credits for completion.", degreeName, creditsRequired);
+            Console.WriteLine("\n\n");
+        }
+
+        /// <summary>
+        /// Collect course info.
+        /// </summary>
+        static void CourseInformation(out string courseName, out int credits, out int duration, out string teacher)
+        {
+            GetStringData("Enter course name:", out courseName);
+            GetWholeNumberData("Enter the number of credits " + courseName + " is worth:", out credits);
+            GetWholeNumberData("Enter the duration of the course in weeks:", out duration);
+            GetStringData("Enter the teacher's name:", out teacher);
+            //Todo: validate teacher from list of teachers.
+
+            PrintCourseInformation(courseName, credits, duration, teacher);
+        }
+
+        static void PrintCourseInformation(string courseName, int credits, int duration, string teacher)
+        {
+            Console.WriteLine("The course {0} earns the student {1} credits.  It lasts {2} weeks and is taught by {3}.", courseName, credits.ToString(), duration.ToString(), teacher);
+            Console.WriteLine("\n\n");
+        }
+
+        /// <summary>
+        /// Get string data from the user.  If the data is required, keep looping until we get something legitimate.
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="data"></param>
+        /// <param name="required"></param>
+        static void GetStringData(string prompt, out string data, bool required = true)
+        {
+            do
+            {
+                Console.WriteLine(prompt);
+                data = Console.ReadLine();
+            } while (required && (string.IsNullOrWhiteSpace(data)));
         }
 
         /// <summary>
