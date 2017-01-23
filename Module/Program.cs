@@ -1,48 +1,100 @@
 ﻿using System;
 
-namespace Module3
+namespace Module
 {
-    class Program
+    public struct Student {
+        // Student Info
+        public string FirstName;
+        public string LastName;
+        public DateTime BirthDate;
+
+        public Student(string first, string last, DateTime date)
+        {
+            this.FirstName = first;
+            this.LastName = last;
+            this.BirthDate= date;
+        }
+    };
+
+    public struct Teacher {
+        // Teacher Info
+        public string FirstName;
+        public string LastName;
+        public DateTime BirthDate;
+
+        public Teacher(string first, string last, DateTime date)
+        {
+            this.FirstName = first;
+            this.LastName = last;
+            this.BirthDate = date;
+        }
+    };
+
+    public struct Program {
+        // University Program Info
+        public string programName;
+        public string departmentHead;
+        public string degrees;
+
+        public Program(string program, string head, string degreeList)
+        {
+            this.programName = program;
+            this.departmentHead = head;
+            this.degrees = degreeList;
+        }
+    };
+
+    public struct Degree
+    {
+        // Degree Info
+        public string degreeName;
+        public int creditsRequired;
+
+        public Degree(string degree, int credits)
+        {
+            this.degreeName = degree;
+            this.creditsRequired = credits;
+        }
+    };
+
+    public struct Course {
+        // Course Info
+        public string courseName;
+        public int credits;
+        public int duration;
+        public string teacher;
+
+        Course(string course, int _credits, int _duration, string _teacher)
+        {
+            this.courseName = course;
+            this.credits = _credits;
+            this.duration = _duration;
+            this.teacher = _teacher;
+        }
+    };
+
+    class ProgramPrime
     {
         static void Main(string[] args)
         {
-            // Student Info
-            string studentFirstName;
-            string studentLastName;
-            //DateTime studentBirthDate;  dumb down the birthdate for the exercise
-            string studentBirthDate;
-
-            // Teacher Info
-            string teacherFirstName;
-            string teacherLastName;
-            //DateTime teacherBirthDate;  dumb down the birthdate for the exercise
-            string teacherBirthDate;
-
-            // University Program Info
-            string programName;
-            string departmentHead;
-            string degrees;
-
-            // Degree Info
-            string degreeName;
-            int creditsRequired;
-
-            // Course Info
-            string courseName;
-            int credits;
-            int duration;
-            string teacher;
-
-
             try
             {
-                StudentInfo(out studentFirstName, out studentLastName, out studentBirthDate);
-                TeacherInfo(out teacherFirstName, out teacherLastName, out teacherBirthDate);
-                UProgramInfo(out programName, out departmentHead, out degrees);
-                DegreeInformation(out degreeName, out creditsRequired);
-                CourseInformation(out courseName, out credits, out duration, out teacher);
+                Student[] student = new Student[5];
+                StudentInfo(out student[0]);
 
-                ValidateDate(studentBirthDate);
+                string first, last;
+                DateTime date;
+                TeacherInfo(out first, out last, out date);
+                Teacher teacher = new Teacher(first, last, date);
+
+                Program program = new Program();
+                UProgramInfo(out program.programName, out program.departmentHead, out program.degrees);
+
+                Degree degree = new Degree();
+                DegreeInformation(out degree.degreeName, out degree.creditsRequired);
+
+                Course course = new Course();
+                CourseInformation(out course.courseName, out course.credits, out course.duration, out course.teacher);
             }
             catch (NotImplementedException e)
             {
@@ -57,13 +109,23 @@ namespace Module3
             Console.ReadKey();
         }
 
-        static void StudentInfo(out string studentFirstName, out string studentLastName, out string studentBirthDate)
+        /// <summary>
+        /// Get/Print Student Info
+        /// </summary>
+        /// <param name="student">requires student struct</param>
+        static void StudentInfo(out Student student)
         {
-            GetBio("student", out studentFirstName, out studentLastName, out studentBirthDate);
-            PrintBio("Student", studentFirstName, studentLastName, studentBirthDate.ToString());
+            GetBio("student", out student.FirstName, out student.LastName, out student.BirthDate);
+            PrintBio("Student", student.FirstName, student.LastName, student.BirthDate.ToString());
         }
 
-        static void TeacherInfo(out string teacherFirstName, out string teacherLastName, out string teacherBirthDate)
+        /// <summary>
+        /// Get/Print Teacher Info
+        /// </summary>
+        /// <param name="teacherFirstName"></param>
+        /// <param name="teacherLastName"></param>
+        /// <param name="teacherBirthDate"></param>
+        static void TeacherInfo(out string teacherFirstName, out string teacherLastName, out DateTime teacherBirthDate)
         {
             GetBio("teacher", out teacherFirstName, out teacherLastName, out teacherBirthDate);
             PrintBio("Teacher", teacherFirstName, teacherLastName, teacherBirthDate.ToString());
@@ -76,30 +138,11 @@ namespace Module3
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <param name="birthDate"></param>
-        static void GetBio(string bioType, out string firstName, out string lastName, out string birthDate)
+        static void GetBio(string bioType, out string firstName, out string lastName, out DateTime birthDate)
         {
             GetStringData("Enter the " + bioType + "'s first name (REQUIRED): ", out firstName);
             GetStringData("Enter the " + bioType + "'s last name (REQUIRED): ", out lastName);
-            GetStringData("Enter the " + bioType + "'s birth date (REQUIRED): ", out birthDate);
-
-            //This is to be added back in later.
-            //bool invalidData = true;
-            //birthDate = DateTime.Now;
-            //while (invalidData)
-            //{
-            //    try
-            //    {
-            //        Console.WriteLine("Enter the student's birth date. Use MM/DD/YYYY (REQUIRED): ");
-            //        birthDate = DateTime.Parse(Console.ReadLine());
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(e.Message);
-            //        continue;
-            //    }
-            //    Console.WriteLine("student birth date: {0}", birthDate);
-            //    invalidData = false;
-            //}
+            birthDate = GetDate("Enter the " + bioType + "'s birth date (REQUIRED): ");
         }
 
         /// <summary>
@@ -113,11 +156,6 @@ namespace Module3
         {
             Console.WriteLine("{0}: {1} {2} was born on: {3}", bioType, first, last, birthDate);
             Console.WriteLine("\n\n");
-        }
-
-        static void ValidateDate(string date)
-        {
-            throw new NotImplementedException("ValidateDate");
         }
 
         /// <summary>
@@ -191,6 +229,32 @@ namespace Module3
                 Console.WriteLine(prompt);
                 data = Console.ReadLine();
             } while (required && (string.IsNullOrWhiteSpace(data)));
+        }
+
+        static DateTime GetDate(string prompt, bool required = true)
+        {
+            //This is to be added back in later.
+            bool invalidData = true;
+            DateTime date = new DateTime();
+            while (invalidData)
+            {
+                try
+                {
+                    Console.WriteLine(prompt);
+                    date = DateTime.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    if (required)
+                        continue;
+                    else
+                        break;
+                }
+                invalidData = false;
+            }
+
+            return date;
         }
 
         /// <summary>

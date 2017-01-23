@@ -1,3 +1,5 @@
-Module3/bin
-Module3/obj
-Module3/v14/.suo
+Module/bin
+Module/obj
+.vs/Module/v14/.suo
+Module.UnitTests/obj
+Module.UnitTests/bin
